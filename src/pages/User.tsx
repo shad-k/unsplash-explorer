@@ -6,55 +6,10 @@ import getUser from '../api/getUser';
 import getUserPhotos from '../api/getUserPhotos';
 import { FullUser, UserPhoto } from '../types';
 
+import PhotoModal from '../components/PhotoModal';
+import UserLoader from '../components/UserLoader';
+
 import leftArrow from '../images/left-arrow.svg';
-
-const LoaderMain = styled.div`
-  padding: ${({ theme }) => theme.spacing.l};
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const ImageLoader = styled.div`
-  background-color: ${({ theme }) => theme.colors.grey_100};
-  height: 100px;
-  width: 100px;
-  border-radius: ${({ theme }) => theme.borderRadius.round};
-`;
-
-const DetailsLoader = styled.div`
-  flex: 1;
-  padding-left: ${({ theme }) => theme.spacing.m};
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  & div {
-    height: 15px;
-    width: 100%;
-    background-color: ${({ theme }) => theme.colors.grey_100};
-    margin-bottom: ${({ theme }) => theme.spacing.s};
-  }
-
-  & .bio-loader {
-    height: 30px;
-    width: 100%;
-    background-color: ${({ theme }) => theme.colors.grey_100};
-  }
-`;
-
-const UserLoader: React.FC<{}> = () => {
-  return (
-    <LoaderMain>
-      <ImageLoader />
-      <DetailsLoader>
-        <div />
-        <div />
-        <div className="bio-loader" />
-      </DetailsLoader>
-    </LoaderMain>
-  );
-};
 
 const NotFound = styled.div`
   display: flex;
@@ -148,9 +103,11 @@ const UserPhotos = styled.div`
 
 const User: React.FC<{}> = () => {
   const { username } = useParams<{ username: string }>();
-  const [loading, setLoading] = React.useState(true);
+  const [loading, setLoading] = React.useState<boolean>(true);
   const [user, setUser] = React.useState<FullUser | null>();
   const [userPhotos, setUserPhotos] = React.useState<UserPhoto[]>([]);
+  const [showPhotoModal, setShowPhotoModal] = React.useState<boolean>(false);
+  const [currentPhoto, setCurrentPhoto] = React.useState<number>(0);
 
   React.useEffect(() => {
     (async () => {
@@ -166,7 +123,8 @@ const User: React.FC<{}> = () => {
   }, [username]);
 
   const openPhoto = (index: number) => {
-    console.log(index);
+    setShowPhotoModal(true);
+    setCurrentPhoto(index);
   };
 
   if (loading) {
@@ -205,6 +163,22 @@ const User: React.FC<{}> = () => {
             );
           })}
         </UserPhotos>
+      ) : null}
+      {showPhotoModal ? (
+        <PhotoModal
+          photo={userPhotos[currentPhoto]}
+          onClose={() => setShowPhotoModal(false)}
+          nextPhoto={
+            currentPhoto < userPhotos.length - 1
+              ? () => setCurrentPhoto(currentPhoto + 1)
+              : undefined
+          }
+          prevPhoto={
+            currentPhoto > 0
+              ? () => setCurrentPhoto(currentPhoto - 1)
+              : undefined
+          }
+        />
       ) : null}
     </Main>
   );

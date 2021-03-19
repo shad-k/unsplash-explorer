@@ -10,6 +10,7 @@ const theme = {
     error: '#f44336',
     grey_400: '#aaa',
     grey_100: '#ddd',
+    backdrop: 'rgba(255, 255, 255, 0.7)',
   },
   borderRadius: {
     normal: '8px',
@@ -19,6 +20,7 @@ const theme = {
     small: '14px',
     normal: '16px',
     large: '18px',
+    xLarge: '22px',
   },
   spacing: {
     xxs: '2px',
