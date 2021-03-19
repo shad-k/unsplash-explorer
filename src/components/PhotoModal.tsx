@@ -36,7 +36,7 @@ const Image = styled.div`
   height: 60%;
   background-color: ${({ theme }) => theme.colors.app_background};
   padding: ${({ theme }) => theme.spacing.xs};
-  
+
   & img {
     object-fit: contain;
     object-position: center;
@@ -109,9 +109,9 @@ const PhotoModal: React.FC<Props> = ({
 
   React.useEffect(() => {
     const imgElement = document.getElementById('photo');
-    if(imgElement) {
+    if (imgElement) {
       const oldImage = document.getElementById('photo-image');
-      if(oldImage) {
+      if (oldImage) {
         imgElement.removeChild(oldImage);
       }
 
@@ -121,8 +121,8 @@ const PhotoModal: React.FC<Props> = ({
       newImage.id = 'photo-image';
 
       newImage.onload = () => {
-          imgElement.appendChild(newImage);
-      }
+        imgElement.appendChild(newImage);
+      };
     }
   }, [photo]);
 

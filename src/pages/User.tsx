@@ -167,8 +167,12 @@ const User: React.FC<{}> = () => {
       <Details>
         <Name>{user?.name}</Name>
         <Counts>
-          <span>Likes <span className="count">{user?.totalLikes}</span></span>
-          <span>Followers <span className="count">{user?.followersCount}</span></span>
+          <span>
+            Likes <span className="count">{user?.totalLikes}</span>
+          </span>
+          <span>
+            Followers <span className="count">{user?.followersCount}</span>
+          </span>
         </Counts>
       </Details>
 
