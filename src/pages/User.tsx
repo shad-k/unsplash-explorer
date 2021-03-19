@@ -65,12 +65,12 @@ const Details = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  padding-top: ${({ theme }) => theme.spacing.m};
-  padding-left: ${({ theme }) => theme.spacing.m};
+  justify-content: space-between;
+  padding: ${({ theme }) => theme.spacing.m};
 `;
 
 const Username = styled.div`
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: ${({ theme }) => theme.fontSize.normal};
   margin-left: ${({ theme }) => theme.spacing.m};
 `;
 
@@ -97,6 +97,21 @@ const UserPhotos = styled.div`
       width: 100%;
       object-fit: cover;
       object-position: center;
+    }
+  }
+`;
+
+const Counts = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & > span {
+    font-size: ${({ theme }) => theme.fontSize.small};
+
+    & .count {
+      font-size: ${({ theme }) => theme.fontSize.normal};
+      font-weight: bold;
     }
   }
 `;
@@ -151,6 +166,10 @@ const User: React.FC<{}> = () => {
       <Image src={user?.profileImage} />
       <Details>
         <Name>{user?.name}</Name>
+        <Counts>
+          <span>Likes <span className="count">{user?.totalLikes}</span></span>
+          <span>Followers <span className="count">{user?.followersCount}</span></span>
+        </Counts>
       </Details>
 
       {userPhotos.length > 0 ? (

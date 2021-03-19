@@ -55,7 +55,7 @@ const Details = styled.div`
 `;
 
 const Description = styled.span`
-  font-size: ${({ theme }) => theme.fontSize.medium};
+  font-size: ${({ theme }) => theme.fontSize.normal};
 `;
 
 const CreatedAt = styled.span`
