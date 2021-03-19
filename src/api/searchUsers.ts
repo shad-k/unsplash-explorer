@@ -5,8 +5,8 @@ import { User } from '../types';
 let onGoingRequest = false;
 let controller: AbortController;
 let signal;
-const searchUser = async (query: string): Promise<User[]> => {
-  if(onGoingRequest) {
+const searchUsers = async (query: string): Promise<User[]> => {
+  if (onGoingRequest) {
     controller.abort();
   }
 
@@ -15,11 +15,14 @@ const searchUser = async (query: string): Promise<User[]> => {
   onGoingRequest = true;
 
   try {
-    const apiResponse = await unsplashApi.search.getUsers({
-      query,
-      page: 1,
-      perPage: 10,
-    }, { signal });
+    const apiResponse = await unsplashApi.search.getUsers(
+      {
+        query,
+        page: 1,
+        perPage: 10,
+      },
+      { signal }
+    );
 
     signal = null;
     onGoingRequest = false;
@@ -39,11 +42,11 @@ const searchUser = async (query: string): Promise<User[]> => {
       return Promise.reject();
     }
   } catch (error) {
-    if(error.message.startsWith('The user aborted a request.')) {
+    if (error.message.startsWith('The user aborted a request.')) {
       return Promise.resolve([]);
     }
     return Promise.reject(error);
   }
 };
 
-export default searchUser;
+export default searchUsers;

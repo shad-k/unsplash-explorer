@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
 import throttle from '../utils/throttle';
-import searchUsers from '../api/searchUser';
+import searchUsers from '../api/searchUsers';
 import { User } from '../types';
 
 import Loader from './Loader';

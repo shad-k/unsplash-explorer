@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { Link, useParams } from 'react-router-dom';
 
 import getUser from '../api/getUser';
-import { FullUser } from '../types';
+import getUserPhotos from '../api/getUserPhotos';
+import { FullUser, UserPhoto } from '../types';
 
 import leftArrow from '../images/left-arrow.svg';
 
@@ -52,8 +53,8 @@ const UserLoader: React.FC<{}> = () => {
         <div className="bio-loader" />
       </DetailsLoader>
     </LoaderMain>
-  )
-}
+  );
+};
 
 const NotFound = styled.div`
   display: flex;
@@ -122,41 +123,91 @@ const Name = styled.div`
   font-size: ${({ theme }) => theme.fontSize.large};
 `;
 
+const UserPhotos = styled.div`
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: ${({ theme }) => theme.spacing.l};
+
+  & > div {
+    margin: ${({ theme }) => theme.spacing.xxs};
+    height: 100px;
+    width: 100px;
+    border: 1px solid ${({ theme }) => theme.colors.border};
+
+    & > img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+  }
+`;
+
 const User: React.FC<{}> = () => {
-  const { username } = useParams<{username: string}>();
-  const [loading, setLoading ] = React.useState(true);
+  const { username } = useParams<{ username: string }>();
+  const [loading, setLoading] = React.useState(true);
   const [user, setUser] = React.useState<FullUser | null>();
+  const [userPhotos, setUserPhotos] = React.useState<UserPhoto[]>([]);
 
   React.useEffect(() => {
     (async () => {
       const userResponse = await getUser(username);
-      console.log(userResponse);
       setUser(userResponse);
       setLoading(false);
     })();
+
+    (async () => {
+      const photos = await getUserPhotos(username);
+      setUserPhotos(photos);
+    })();
   }, [username]);
 
-  if(loading) {
-    return <UserLoader />
+  const openPhoto = (index: number) => {
+    console.log(index);
+  };
+
+  if (loading) {
+    return <UserLoader />;
   }
 
-  if(!user && !loading) {
-    return <NotFound>
+  if (!user && !loading) {
+    return (
+      <NotFound>
         No such user user exist.
         <StyledLink to="/">Go to Home</StyledLink>
       </NotFound>
+    );
   }
 
-  return (<Main>
-    <Header>
-      <Link to="/"><img src={leftArrow} alt="" /></Link>
-      <Username>@{user?.username}</Username>
-    </Header>
-    <Image src={user?.profileImage} />
-    <Details>
-      <Name>{user?.name}</Name>
-    </Details>
-  </Main>)
-}
+  return (
+    <Main>
+      <Header>
+        <Link to="/">
+          <img src={leftArrow} alt="" />
+        </Link>
+        <Username>@{user?.username}</Username>
+      </Header>
+      <Image src={user?.profileImage} />
+      <Details>
+        <Name>{user?.name}</Name>
+      </Details>
+
+      {userPhotos.length > 0 ? (
+        <UserPhotos>
+          {userPhotos.map((photo: UserPhoto, index: number) => {
+            return (
+              <div onClick={() => openPhoto(index)}>
+                <img src={photo.urls.thumb} alt={photo.description || ''} />
+              </div>
+            );
+          })}
+        </UserPhotos>
+      ) : null}
+    </Main>
+  );
+};
 
 export default User;

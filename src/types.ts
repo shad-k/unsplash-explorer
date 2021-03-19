@@ -15,3 +15,13 @@ export type FullUser = {
   totalPhotos: number;
   followersCount: number;
 };
+
+export type UserPhoto = {
+  id: string;
+  createdAt: string;
+  description: string | null;
+  urls: {
+    thumb: string;
+    full: string;
+  };
+};
