@@ -8,6 +8,8 @@ const theme = {
     white: '#fff',
     black: '#000',
     error: '#f44336',
+    grey_400: '#aaa',
+    grey_100: '#ddd',
   },
   borderRadius: {
     normal: '8px',

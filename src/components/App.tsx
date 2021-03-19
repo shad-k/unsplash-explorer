@@ -5,6 +5,7 @@ import styled, { ThemeProvider } from 'styled-components';
 import theme from '../theme';
 
 import Home from '../pages/Home';
+import User from '../pages/User';
 
 const Main = styled.main`
   height: 100%;
@@ -18,6 +19,7 @@ function App() {
       <Main>
         <Router>
           <Switch>
+            <Route path="/user/:username" component={User} />
             <Route path="/" component={Home} />
           </Switch>
         </Router>
