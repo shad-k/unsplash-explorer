@@ -9,7 +9,8 @@ import Home from '../pages/Home'
 const Main = styled.main`
   height: 100%;
   width: 100%;
-`
+  background: ${({ theme }) => theme.colors.app_background};
+`;
 
 function App() {
   return (
