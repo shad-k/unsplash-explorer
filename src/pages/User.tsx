@@ -5,6 +5,8 @@ import { Link, useParams } from 'react-router-dom';
 import getUser from '../api/getUser';
 import { FullUser } from '../types';
 
+import leftArrow from '../images/left-arrow.svg';
+
 const LoaderMain = styled.div`
   padding: ${({ theme }) => theme.spacing.l};
   display: flex;
@@ -76,6 +78,23 @@ const Main = styled.div`
   display: flex;
   flex-wrap: wrap;
   padding: ${({ theme }) => theme.spacing.l};
+  padding-top: 60px;
+`;
+
+const Header = styled.header`
+  height: 48px;
+  width: 100%;
+  background-color: ${({ theme }) => theme.colors.white};
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  padding: ${({ theme }) => theme.spacing.s};
+
+  & img {
+    width: 24px;
+  }
 `;
 
 const Image = styled.img`
@@ -90,16 +109,17 @@ const Details = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  padding-top: ${({ theme }) => theme.spacing.m};
   padding-left: ${({ theme }) => theme.spacing.m};
 `;
 
 const Username = styled.div`
-  font-size: ${({ theme }) => theme.fontSize.large};
+  font-size: ${({ theme }) => theme.fontSize.medium};
+  margin-left: ${({ theme }) => theme.spacing.m};
 `;
 
 const Name = styled.div`
-  font-size: ${({ theme }) => theme.fontSize.small};
+  font-size: ${({ theme }) => theme.fontSize.large};
 `;
 
 const User: React.FC<{}> = () => {
@@ -128,9 +148,12 @@ const User: React.FC<{}> = () => {
   }
 
   return (<Main>
+    <Header>
+      <Link to="/"><img src={leftArrow} alt="" /></Link>
+      <Username>@{user?.username}</Username>
+    </Header>
     <Image src={user?.profileImage} />
     <Details>
-      <Username>{user?.username}</Username>
       <Name>{user?.name}</Name>
     </Details>
   </Main>)
