@@ -32,12 +32,17 @@ const Close = styled.div`
   margin-bottom: ${({ theme }) => theme.spacing.l};
 `;
 
-const Image = styled.img`
+const Image = styled.div`
   height: 60%;
-  object-fit: contain;
-  object-position: center;
   background-color: ${({ theme }) => theme.colors.app_background};
   padding: ${({ theme }) => theme.spacing.xs};
+  
+  & img {
+    object-fit: contain;
+    object-position: center;
+    height: 100%;
+    width: 100%;
+  }
 `;
 
 const Details = styled.div`
@@ -102,11 +107,30 @@ const PhotoModal: React.FC<Props> = ({
     date = new Date(photo.createdAt);
   }
 
+  React.useEffect(() => {
+    const imgElement = document.getElementById('photo');
+    if(imgElement) {
+      const oldImage = document.getElementById('photo-image');
+      if(oldImage) {
+        imgElement.removeChild(oldImage);
+      }
+
+      const newImage = document.createElement('img');
+      newImage.src = photo.urls.full;
+      newImage.alt = photo.description || '';
+      newImage.id = 'photo-image';
+
+      newImage.onload = () => {
+          imgElement.appendChild(newImage);
+      }
+    }
+  }, [photo]);
+
   return (
     <Main>
       <Photo>
         <Close onClick={onClose}>&times;</Close>
-        <Image src={photo.urls.full} alt={photo.description || ''} />
+        <Image id="photo" />
         <Details>
           <Description>{photo.description}</Description>
           {photo.createdAt && date ? (
