@@ -1,12 +1,16 @@
 const theme = {
   colors: {
-    app_background: '#EEE',
+    app_background: '#eee',
     border: '#ccc',
+    borderLight: '#eee',
     textLight: '#ccc',
-    textDark: '#2a2a2a'
+    textDark: '#2a2a2a',
+    white: '#fff',
+    black: '#000',
   },
   borderRadius: {
     normal: '8px',
+    round: '50%',
   },
   fontSize: {
     small: '14px',
@@ -18,7 +22,7 @@ const theme = {
     xs: '4px',
     s: '8px',
     m: '12px',
-    l: '16px'
+    l: '16px',
   },
 }
 
