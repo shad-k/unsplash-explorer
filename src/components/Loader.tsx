@@ -1,5 +1,5 @@
-import React from 'react'
-import styled, { keyframes } from 'styled-components'
+import React from 'react';
+import styled, { keyframes } from 'styled-components';
 
 const ellipsis1 = keyframes`
 {
@@ -10,7 +10,7 @@ const ellipsis1 = keyframes`
     transform: scale(1);
   }
 }
-`
+`;
 
 const ellipsis3 = keyframes`
   0% {
@@ -20,7 +20,7 @@ const ellipsis3 = keyframes`
     transform: scale(0);
   }
 }
-`
+`;
 const ellipsis2 = keyframes`
 0% {
   transform: translate(0, 0);
@@ -28,7 +28,7 @@ const ellipsis2 = keyframes`
 100% {
   transform: translate(24px, 0);
 }
-`
+`;
 
 const Main = styled.div`
   display: inline-block;
@@ -60,7 +60,7 @@ const Main = styled.div`
     left: 56px;
     animation: ${ellipsis3} 0.6s infinite;
   }
-`
+`;
 
 const Loader: React.FC<{}> = () => {
   return (
@@ -70,7 +70,7 @@ const Loader: React.FC<{}> = () => {
       <div></div>
       <div></div>
     </Main>
-  )
-}
+  );
+};
 
-export default Loader
+export default Loader;

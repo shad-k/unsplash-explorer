@@ -1,14 +1,14 @@
-import React from 'react'
-import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import React from 'react';
+import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-import throttle from '../utils/throttle'
-import searchUsers from '../api/searchUser'
-import { User } from '../types'
+import throttle from '../utils/throttle';
+import searchUsers from '../api/searchUser';
+import { User } from '../types';
 
-import Loader from './Loader'
+import Loader from './Loader';
 
-const Main = styled.div``
+const Main = styled.div``;
 
 const Input = styled.input`
   border: 1px solid ${({ theme }) => theme.colors.border};
@@ -21,7 +21,7 @@ const Input = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.colors.textLight};
   }
-`
+`;
 
 const SearchResults = styled.ul`
   list-style-type: none;
@@ -30,7 +30,7 @@ const SearchResults = styled.ul`
   background-color: ${({ theme }) => theme.colors.white};
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-`
+`;
 
 const ResultItem = styled.li`
   padding: ${({ theme }) => theme.spacing.s};
@@ -48,41 +48,60 @@ const ProfileImage = styled.img`
   height: 32px;
   width: 32px;
   border-radius: ${({ theme }) => theme.borderRadius.round};
-`
+`;
 
 const Name = styled.span`
   margin: 0 ${({ theme }) => theme.spacing.s};
-`
+`;
 
 const Username = styled.span`
   flex: 2;
   font-size: ${({ theme }) => theme.fontSize.small};
   color: ${({ theme }) => theme.colors.textLight};
-`
+`;
+
+const Error = styled.div`
+  padding: ${({ theme }) => theme.spacing.l};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  & .small {
+    font-size: ${({ theme }) => theme.fontSize.small};
+    margin-bottom: ${({ theme }) => theme.spacing.xs};
+  }
+
+  & .large {
+    font-size: ${({ theme }) => theme.fontSize.large};
+    color: ${({ theme }) => theme.colors.error};
+  }
+`;
 
 const Search: React.FC<{ className?: string }> = ({ className }) => {
-  const [loadingResults, setLoadingResults] = React.useState(false)
-  const [error, setError] = React.useState(null)
-  const [users, setUsers] = React.useState<User[]>([])
+  const [loadingResults, setLoadingResults] = React.useState(false);
+  const [error, setError] = React.useState(null);
+  const [users, setUsers] = React.useState<User[]>([]);
 
   const getUsers = async (query: string) => {
-    setLoadingResults(true)
+    setLoadingResults(true);
+    setError(null);
     try {
-      const usersResponse = await searchUsers(query)
-      setUsers(usersResponse)
-      setLoadingResults(false)
+      const usersResponse = await searchUsers(query);
+      setUsers(usersResponse);
+      setLoadingResults(false);
     } catch (error) {
-      setError(error)
-      setLoadingResults(false)
+      setError(error);
+      setLoadingResults(false);
     }
-  }
+  };
 
-  const throttledAPIRequest = React.useMemo(() => throttle(getUsers), [])
+  const throttledAPIRequest = React.useMemo(() => throttle(getUsers), []);
 
   const changeHandler = (event: React.ChangeEvent) => {
-    const query = (event.target as HTMLInputElement).value
-    throttledAPIRequest(query)
-  }
+    const query = (event.target as HTMLInputElement).value;
+    throttledAPIRequest(query);
+  };
 
   return (
     <Main className={className}>
@@ -96,6 +115,11 @@ const Search: React.FC<{ className?: string }> = ({ className }) => {
       <SearchResults>
         {loadingResults ? (
           <Loader />
+        ) : error ? (
+          <Error>
+            <span className="small">We are experiencing some problems.</span>
+            <span className="large">Please try again after sometime!</span>
+          </Error>
         ) : (
           users.map((user: User) => {
             return (
@@ -106,12 +130,12 @@ const Search: React.FC<{ className?: string }> = ({ className }) => {
                   <Username>{user.username}</Username>
                 </StyledLink>
               </ResultItem>
-            )
+            );
           })
         )}
       </SearchResults>
     </Main>
-  )
-}
+  );
+};
 
-export default Search
+export default Search;

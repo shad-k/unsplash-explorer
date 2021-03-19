@@ -7,6 +7,7 @@ const theme = {
     textDark: '#2a2a2a',
     white: '#fff',
     black: '#000',
+    error: '#f44336',
   },
   borderRadius: {
     normal: '8px',
@@ -24,6 +25,6 @@ const theme = {
     m: '12px',
     l: '16px',
   },
-}
+};
 
-export default theme
+export default theme;

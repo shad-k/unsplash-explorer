@@ -1,16 +1,16 @@
-import React from 'react'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import styled, { ThemeProvider } from 'styled-components'
+import React from 'react';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import styled, { ThemeProvider } from 'styled-components';
 
-import theme from '../theme'
+import theme from '../theme';
 
-import Home from '../pages/Home'
+import Home from '../pages/Home';
 
 const Main = styled.main`
   height: 100%;
   width: 100%;
   background: ${({ theme }) => theme.colors.app_background};
-`
+`;
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
         </Router>
       </Main>
     </ThemeProvider>
-  )
+  );
 }
 
-export default App
+export default App;
